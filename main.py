@@ -16,6 +16,7 @@
 * limitations under the License.
 """
 
+import sys
 from risk_analyzer import riskAnalyzer
 
 """
@@ -26,8 +27,16 @@ from risk_analyzer import riskAnalyzer
 """
 
 
-# Specify host & port here
 if __name__ == "__main__":
-    host = ""
+
+    host = '127.0.0.1'
     port = 1342
+
+    if len(sys.argv)==3 :
+        host = sys.argv[1]
+        port = int(sys.argv[2])
+
+    elif len(sys.argv)==2 :
+        host = sys.argv[1]
+
     riskAnalyzer(host,port)

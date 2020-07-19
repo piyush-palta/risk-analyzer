@@ -26,15 +26,20 @@ The below command will start the riskAnalyzer server :
 ```bash
 $ python main.py
 ```
-You can configure host and port by changing them in main.py 
+To configure host and port by yourself :
+
+```bash
+$ python main.py host_name port_number
+```
+
 
 ### Running the tests
-Before running test make sure you run each file tests are going to run on :
+Before running test make sure you run each file on which tests are going to be run on :
 
 ```bash
 $ python main.py
-$ python blacklist_IP.py
-$ python rule_engine.py
+$ python risk_calculator/blacklist_ip.py
+$ python risk_calculator/rule_engine.py
 ```
 
 To run all tests, run the following command in project directory :
