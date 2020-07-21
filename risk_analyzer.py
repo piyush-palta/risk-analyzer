@@ -34,6 +34,8 @@ class riskAnalyzer:
         self.host=host
         self.port=port
         self.serverSocket = riskServerSocket(self.host, self.port)
+        self.blacklistDB_init()
+        self.ruleEngine_init()
         try:
             while True:
                 self.serverSocket.receive()
@@ -45,12 +47,16 @@ class riskAnalyzer:
             self.serverSocket.close()
             print("Crtl+C Pressed. Shutting down.")
 
+    def blacklistDB_init(self):
+        self.blacklistDB = bls.blacklistIP('full_blacklist_database.txt')
+    
+    def ruleEngine_init(self):
+        self.ruleEngine = re.ruleEngine()
+
     def calculateRisk(self):
-        result = bls.blacklistIP(self.serverSocket.ip_addr)
-        if(result.blacklist):
+        if(self.blacklistDB.check(self.serverSocket.ip_addr)):
             return "100"
         else:
-            result = re.ruleEngine(self.serverSocket.ip_addr)
-            return result.score
-        return "33"
-    
+            score = self.ruleEngine.getScore(self.serverSocket.ip_addr)
+            return score
+        
