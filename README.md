@@ -13,11 +13,6 @@ Make sure you have installed all of the following prerequisites on your developm
 * Git - [Download & Install Git](https://git-scm.com/downloads). OSX and Linux machines typically have this already installed.
 * Python - [Download & Install Python](https://www.python.org/downloads/). For linux machines, you can also use this [Python Docs](https://docs.python-guide.org/starting/install3/linux/) to install Python.
 * pip - [Download & Install pip](https://pip.pypa.io/en/stable/installing/). Make sure you've installed python first.
-* pydnsbl - You need [Instal pydnsbl](https://pypi.org/project/pydnsbl/) to use blacklist IP dump. You can simply use pip command for installation:
-
-```bash
-$ pip install pydnsbl
-```
 
 ### Installing
 
@@ -62,7 +57,6 @@ Note : These tests take significant time to run, merely because blacklist_ip is 
 
 ### Future development Strategy
 * The project isn't optimized for scaling purposes yet. Server is opening only one socket, and Synchronous processing is done. To optimize this, threading will be introduced. 
-* Blacklist dump is highly time inefficient and processing a single query clocks an average of 1 sec. Instead of using pydnsbl package, a manual implementation of the same will be taken up later to deal with this problem 
 
 ### Architecture
 The below image illustrates the architecture of Risk Analyzer server :
