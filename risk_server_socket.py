@@ -71,7 +71,9 @@ class riskServerSocket:
             client_response = str(self.conn.recv(1024).decode("utf-8"))
             if(len(client_response)>0):
                 self.msg = client_response
-                self.ip_addr = self.msg
+                message = self.msg.split('-')
+                self.ip_addr = message[0]
+                self.userID = message[1]
                 break
 
     #Send message to client

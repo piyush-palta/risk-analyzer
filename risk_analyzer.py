@@ -57,6 +57,6 @@ class riskAnalyzer:
         if(self.blacklistDB.check(self.serverSocket.ip_addr)):
             return "100"
         else:
-            score = self.ruleEngine.getScore(self.serverSocket.ip_addr)
+            score = self.ruleEngine.getScore(self.serverSocket.ip_addr, self.serverSocket.userID)
             return score
         
