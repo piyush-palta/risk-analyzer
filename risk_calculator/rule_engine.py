@@ -32,7 +32,7 @@ class ruleEngine:
         Constructor assigns IP as attribute and initiates Risk Calculation
      """
     
-    def __init__(self, ip_addr, userID):
+    def __init__(self):
         self.db = ruleDB.database()            
         
     def init_eval(self):
@@ -40,7 +40,7 @@ class ruleEngine:
 
     #Check if IP address is in Whitelist and matches with userID
     def rule1(self):
-        if(db.checkWhitelist(self.ip_addr,self.userID)):
+        if(self.db.checkWhitelist(self.ip_addr,self.userID)):
             #Each failed attempt adds 2 to risk score & 7 every 5th attempt
             self.score += (2*(self.attempts)   + 5*(self.attempts//5))
         else :
@@ -50,7 +50,7 @@ class ruleEngine:
     # Check if IP address matches with user ID similar to current ID using Fuzzy Logic &
     # edit distance concept and subsidizes failed attempts penalty 
     def rule2(self):
-        if(db.fuzzyMatchUserID(self.ip_addr,self.userID)):
+        if(self.db.fuzzyMatchUserID(self.ip_addr,self.userID)):
             #Each failed attempt adds 4 to the risk score & 8 every 5th attempt 
             self.score +=  (4*(self.attempts)  + 4*(self.attempts//5))
         else:
@@ -64,7 +64,7 @@ class ruleEngine:
     
     # Checks if there are other IP accesses for this userID
     def rule4(self):
-        user_attempts = checkUserIDAttempts(self.userID) - 1
+        user_attempts = self.db.checkUserIDAttempts(self.userID)
         # Each adds a score of 9
         self.score  += 9*(user_attempts)
         
@@ -72,7 +72,7 @@ class ruleEngine:
     def getScore(self, ip_addr, userID):
         self.ip_addr = ip_addr
         self.userID = userID
-        self.attempts = db.getNumberofFailedAttempts(self.ip_addr)
+        self.attempts = self.db.getNumberofFailedAttempts(self.ip_addr)
         self.score = 0
         self.init_eval()
         return self.score

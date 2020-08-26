@@ -34,39 +34,44 @@ class database:
         """Initialize db class variables"""
         self.connection = sqlite3.connect(db_location)
         self.cur = self.connection.cursor()
+        self.create_table()
 
     def create_table(self):
-        """create database tables IPv4 and IPv6"""
+        """create database tables"""
         self.cur.execute('''CREATE TABLE login(ip_addr text, userID text, event_time timestamp, event_success bool)''')
 
     def insertEvent(self,ip_addr,userID,event_time,event_success):
-        """insert a row of data to current cursor in whitelist table"""
-        self.cur.execute('INSERT INTO whitelist VALUES(?,?,?,?)', (ip_addr,userID,event_time,event_success))
+        """insert a row of data to current cursor in login table"""
+        self.cur.execute('INSERT INTO login VALUES(?,?,?,?)', (ip_addr,userID,event_time,event_success))
           
     def insertManyEvents(self, event_list):
         """insert bulk data to the table in one go"""
-        self.cur.executemany('INSERT INTO whitelist VALUES(?,?,?,?)', [(i[0], i[1], i[2], i[3]) for i in event_list])
+        self.cur.executemany('INSERT INTO login VALUES(?,?,?,?)', [(i[0], i[1], i[2], i[3]) for i in event_list])
 
     def getNumberofFailedAttempts(self, ip_addr):
-        self.cur.execute("SELECT COUNT(*) FROM whitelist WHERE event_success=0 AND ip_addr = (?)", (ip_addr))
+        self.cur.execute("SELECT COUNT(*) FROM login WHERE event_success=0 AND ip_addr = (?)", (ip_addr,))
         data=self.cur.fetchone()
+        if data is None:
+            return 0
         return data[0]
         
     def checkWhitelist(self,ip_addr,userID):
-        self.cur.execute("SELECT * FROM whitelist WHERE event_success=1 AND ip_addr = (?) AND userID=(?)", (ip_addr,userID))
+        self.cur.execute("SELECT * FROM login WHERE event_success=1 AND ip_addr = (?) AND userID=(?)", (ip_addr,userID))
         data=self.cur.fetchone()
         if data is None:
             return 0
         return 1
 
     def checkUserIDAttempts(self, userID):
-        self.cur.execute("SELECT COUNT(DISTINCT ip_addr) FROM whitelist WHERE event_success=0 AND userID = (?)", (userID))
+        self.cur.execute("SELECT COUNT(DISTINCT ip_addr) FROM login WHERE event_success=0 AND userID = (?)", (userID,))
         data=self.cur.fetchone()
+        if data is None:
+            return 0
         return data[0]
 
     def fuzzyMatchUserID(self, ip_addr, userID):
         """fuzzy matches userID with ip_addr in the table"""
-        self.cur.execute("SELECT userID FROM whitelist WHERE event_success=1 AND ip_addr = (?)", (ip_addr))
+        self.cur.execute("SELECT userID FROM login WHERE event_success=1 AND ip_addr = (?)", (ip_addr,))
         data=self.cur.fetchall()
         for id in data:
             if(levenshtein_ratio_and_distance(userID, id)>0.9):

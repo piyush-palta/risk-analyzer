@@ -27,7 +27,7 @@ import socket
 """
 
 # host and port are based on riskAnalyzer server
-host = '192.168.43.54'
+host = '127.0.0.1'
 port = 1342
 
 client_socket1 = socket.socket()
@@ -49,7 +49,7 @@ client_socket4.connect((host, port))
 class TestRiskAnalyzer(unittest.TestCase):
         
     def testCase1(self):
-        client_socket1.send(str.encode('68.128.213.240'))
+        client_socket1.send(str.encode('1.2.167.196-elytron'))
         while True:
         	data = client_socket1.recv(1024).decode("utf-8")
 	        if (len(data) > 0):
@@ -58,7 +58,7 @@ class TestRiskAnalyzer(unittest.TestCase):
         client_socket1.close()
         
     def testCase2(self):
-        client_socket2.send(str.encode('192.168.79.15'))
+        client_socket2.send(str.encode('103.214.219.250-user1'))
         while True:
         	data = client_socket2.recv(1024).decode("utf-8")
 	        if (len(data) > 0):
@@ -67,19 +67,19 @@ class TestRiskAnalyzer(unittest.TestCase):
         client_socket2.close()
 
     def testCase3(self):     
-        client_socket3.send(str.encode('192.39.46.250'))
+        client_socket3.send(str.encode('192.39.46.250-user'))
         while True:
         	data = client_socket3.recv(1024).decode("utf-8")
 	        if (len(data) > 0):
-		        self.assertEqual(data, '35')
+		        self.assertEqual(data, '0')
 		        break
         client_socket3.close()
 
     def testCase4(self):
-        client_socket4.send(str.encode('157.39.46.250'))
+        client_socket4.send(str.encode('157.39.46.250-user'))
         while True:
         	data = client_socket4.recv(1024).decode("utf-8")
 	        if (len(data) > 0):
-		        self.assertEqual(data, '100')
+		        self.assertEqual(data, '0')
 		        break
         client_socket4.close()        

@@ -29,12 +29,10 @@ $ python main.py host_name port_number
 
 
 ### Running the tests
-Before running test make sure you run each file on which tests are going to be run on :
+Before running tests make sure you execute the following command. This will ensure all files are compiled :
 
 ```bash
 $ python main.py
-$ python risk_calculator/blacklist_ip.py
-$ python risk_calculator/rule_engine.py
 ```
 
 To run all tests, run the following command in project directory :
@@ -51,8 +49,6 @@ To run each test separately :
 ```bash
 $ python -m unittest test_name.py
 ```
-
-Note : These tests take significant time to run, merely because blacklist_ip is very slow since it's checking every online blacklist dump. The blacklist chceking strategy will be revised & optimized in the future. 
 
 
 ### Future development Strategy

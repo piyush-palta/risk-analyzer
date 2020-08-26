@@ -54,6 +54,7 @@ class riskAnalyzer:
         self.ruleEngine = re.ruleEngine()
 
     def calculateRisk(self):
+        print(self.serverSocket.ip_addr)
         if(self.blacklistDB.check(self.serverSocket.ip_addr)):
             return "100"
         else:

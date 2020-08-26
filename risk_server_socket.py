@@ -78,7 +78,7 @@ class riskServerSocket:
 
     #Send message to client
     def send(self, msg):
-        self.conn.send(str.encode(msg))
+        self.conn.send(str.encode(str(msg)))
         self.conn.close()
         self.start()
 
